@@ -1,0 +1,76 @@
+// GRECO Vincent & GUILPAIN Léo
+
+package messagerie;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+
+
+
+public class BoiteVocale {
+		//attributs
+		private List<MessageVocal>boiteVocale;
+		private int nbMesVoc;
+		private List<MessageVocal>boiteVocaleNonLu;
+		
+		
+		//constructeurs
+		public BoiteVocale(){
+			List<MessageVocal>boiteVocale = new ArrayList<MessageVocal>();
+			List<MessageVocal>boiteVocaleNonLu = new ArrayList<MessageVocal>();
+			this.boiteVocaleNonLu =boiteVocaleNonLu;
+			this.boiteVocale =boiteVocale;
+			this.nbMesVoc = 0;
+		}
+		
+		//méthodes
+		
+		//ajouter un MessageVoc dans la boiteVocale
+		public void ajouterMesVoc(MessageVocal message){
+			this.boiteVocale.add(message);
+			this.boiteVocaleNonLu.add(message);
+			this.nbMesVoc = nbMesVoc+1;
+		}
+		
+		
+		//renvoie le nombre de message dans la boiteSMS
+		public int getNbMesVoc(){return this.nbMesVoc;}
+		
+		
+		//lis les nouveaux messages
+		public void lireNouveauxMessagesVocaux()
+		{
+			ListIterator <MessageVocal> it = boiteVocaleNonLu.listIterator();
+			if (boiteVocale.isEmpty())
+			{
+				System.out.println("Vous n'avez pas de nouveaux messages vocaux");
+			}
+			else
+			{
+				while(it.hasNext())
+				{
+					MessageVocal mes = it.next();
+					System.out.println(mes.getMessage()); //affichage du message
+				}
+			}
+		}
+		
+		
+		// renvoie le message
+		public MessageVocal getMessage(MessageVocal messageVoc){return messageVoc;}
+		
+		//renvoie les nouveaux MessageVocale
+		public MessageSMS getNouveauSMS()
+		{
+			ListIterator <MessageSMS> it = boiteVocale.listIterator();
+			while(it.hasNext())
+			{
+				MessageSMS cur = it.next();
+				it.remove();
+				return cur;
+			}
+			return null;
+		}
+}
+

@@ -1,0 +1,141 @@
+package messagerie;
+import java.util.Date;
+
+/**
+ * Informations d'Abonné gérées par l'opérateur
+ */
+public class AbonneOperateur implements GestionCommunication
+{
+	//attributs
+	private Telephone tel;
+	private Forfait nomForfait;
+	private String nomPersonne;
+	private BoiteSMS b1;
+	private Date datefin;
+	private Date datedebut;
+	private NumeroTelephone num;
+	private String msgVocal;
+	private Operateur operateur;
+	private BoiteVocale b2;
+	private int dureeAppels;
+	
+	
+	
+	//constructeur
+	public AbonneOperateur(Telephone tel,Forfait nomForfait,String nomPersonne,NumeroTelephone numero){
+		this.tel=tel;
+		this.num = numero;
+		this.nomForfait = nomForfait;
+		this.nomPersonne=nomPersonne;
+		BoiteSMS b1 = new BoiteSMS();
+		BoiteVocale b2 = new BoiteVocale();
+		this.b2 = b2;
+		this.b1 = b1;
+		this.dureeAppels =0;
+	}
+	
+
+	
+  //------------------------------------------------------------------------
+  // méthodes de l'interface GestionCommunication
+  //------------------------------------------------------------------------
+ 
+
+	public boolean appeler(String numero, String msgVocalSiOccupe, Date dateDebut){
+		for (int i=0; i<operateur.getListe().size(); i++)
+		{
+			AbonneOperateur recepteur = operateur.getListe().get(i);
+			//Si le numéro passé en paramètre est trouvé dans la liste des abonnés
+			if(numero.equals(recepteur.num)) //Comparaison entre le numéro à qui on souhaite envoyer le sms et le numéro de l'abonné dans la liste
+			{
+				if(!accepterAppel(this.num.numero)){
+					AbstractCommMessage comMessage = new CommMessageVocal(dateDebut,recepteur.getNum(),this.num);
+					MessageVocal message = new MessageVocal(msgVocalSiOccupe,comMessage);
+					recepteur.getBoiteVocale().ajouterMesVoc(message);
+					return false;
+				}
+				return true;
+			}
+			
+		}
+		return false;
+
+
+	}
+
+	
+  public void envoyerSMS(String numero, String sms, Date dateSMS) {
+	  this.operateur.posterSMS(this, numero, sms, dateSMS);
+  }
+ 
+  
+  public void recevoirSMS(MessageSMS message){
+	  if(estHorsLigne()){this.b1.ajouterSMS(message);}
+	  else {tel.recevoirSMS(message);}
+  }
+  
+  
+  public boolean accepterAppel(String numeroAppelant)
+  {
+	  if (this.estLibre())
+	  {
+		  return this.tel.accepterAppel(numeroAppelant);
+	  }
+	  return false;
+  }
+
+  
+  public void cloreAppel(Date fin){
+	 this.operateur.cloreAppel(this, fin);
+  }
+
+  //------------------------------------------------------------------------
+  // autres méthodes
+  //------------------------------------------------------------------------
+ 
+  public NumeroTelephone getNum(){
+	  return num;
+  }
+  public Telephone getTel(){
+	  return tel;
+	  
+  }
+  
+  public BoiteSMS getBoiteSMS(){
+	  return b1;
+  }
+  
+  public BoiteVocale getBoiteVocale(){
+	  return b2;
+  }
+  // transférer sur le téléphone les SMS du serveur
+  public void synchroniser()
+  {
+	  int a = this.b1.getNbSMS();
+	  int i = 0;
+	  while (i != a)
+	  {
+		  MessageSMS message = this.b1.getNouveauSMS(); //on recupere les message situés sur le serveur
+		  this.tel.getBoite().ajouterSMS(message); //envoi au téléphone
+		  i++;
+	  }
+  }
+
+  boolean estHorsLigne(){
+    if(tel.esteteint()){return true;}
+	return false;
+  }
+
+  boolean estLibre()
+  {
+	  if(tel.estallume()){return true;}
+		return false;
+  }
+  
+  public int getDureeAppels()
+  {
+	  return this.dureeAppels;
+  }
+
+
+} // AbonneOperateur

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="tableau.Block"/>
+<fullyQualifiedTypeName name="tableau.Tableau2x"/>
+<fullyQualifiedTypeName name="types.Tableau"/>
+<fullyQualifiedTypeName name="tableau.TableauBlock"/>
+<fullyQualifiedTypeName name="types.Couple"/>
+<fullyQualifiedTypeName name="java.awt.List"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.util.ListIterator"/>
+<fullyQualifiedTypeName name="java.util.LinkedList"/>
+</qualifiedTypeNameHistroy>

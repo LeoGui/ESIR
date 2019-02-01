@@ -1,0 +1,55 @@
+package messagerie;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+
+
+
+public class BoiteVocale {
+		//attributs
+		private List<MessageVocal>boiteVocale;
+		private int nbMesVoc;
+		
+		
+		//constructeurs
+		public BoiteVocale(){
+			List<MessageVocal>boiteVocale = new ArrayList<MessageVocal>();
+			this.boiteVocale =boiteVocale;
+			this.nbMesVoc = 0;
+		}
+		
+		//méthodes
+		public void ajouterMesVoc(MessageVocal message){
+			this.boiteVocale.add(message);
+			this.nbMesVoc = nbMesVoc+1;
+			
+		}
+		
+		public int getNbMesVoc(){
+			return this.nbMesVoc;
+		
+		}
+		
+		public void lireNouveauxMessagesVocaux()
+		{
+			ListIterator <MessageVocal> it = boiteVocale.listIterator();
+			if (boiteVocale.isEmpty())
+			{
+				System.out.println("Vous n'avez pas de nouveaux messages vocaux");
+			}
+			else
+			{
+				while(it.hasNext())
+				{
+					MessageVocal mes = it.next();
+					System.out.println(mes.getMessage()); //affichage du message
+				}
+			}
+		}
+		
+		public MessageVocal getMessage(MessageVocal messageVoc){
+			return messageVoc;
+		}
+}
+

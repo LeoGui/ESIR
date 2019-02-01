@@ -1,0 +1,24 @@
+import java.util.LinkedList;
+import java.util.List;
+
+public class PageSimple {
+	
+	//attributs
+	private List <Contatc> repertoire;	
+	
+	
+	//constructeur
+	public PageSimple(){
+		List repertoire = new LinkedList<Contact>;
+	}
+}
+
+protected Contact chercher(List <Contact> repertoire,String nom){
+	ListIterator <Contact> it = repertoire.ListIterator;
+	
+	while(it.hasNext()){
+	
+	if(repertoire.contains(nom)){return 
+	
+	
+}

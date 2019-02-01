@@ -1,0 +1,140 @@
+package messagerie;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.ListIterator;
+
+public class Operateur{
+/**
+ * Un Opérateur gère des abonnés et des communications
+ */
+	//attributs 
+	private List<AbonneOperateur> liste;
+	private Date datefin;
+	private String nomOperateur;
+	private List<Appel> listeAp;
+	
+	//Constructeur
+	public Operateur(String nomOperateur){
+		List<AbonneOperateur> liste = new ArrayList <AbonneOperateur>();
+		this.liste = liste;
+		this.nomOperateur = nomOperateur;
+		List<Appel> listeAp = new ArrayList <Appel>();
+	}	
+	
+	
+  /**
+   * Une personne souscrit un abonnement et reçoit un téléphone
+   */
+  public Telephone souscrire(String nomPersonne, String nomForfait) {
+    NumeroTelephone numero = new NumeroTelephone();
+    Telephone tel = null;
+    Forfait nomF = new Forfait(nomForfait);
+    AbonneOperateur abonne = new AbonneOperateur(tel,nomF,nomPersonne,numero);
+    Telephone telephone = new Telephone(abonne);
+    liste.add(abonne);
+    return telephone;
+    
+  }
+
+
+	/*	
+   * Établir une communication
+   * @param emetteur
+   * @param numeroDestinataire
+   * @param msgVocal : message en cas d'indisponibilité
+   * @param dateAppel
+   * @return vrai si la communication a été établie
+   */
+  public boolean etablirCommunication(AbonneOperateur emetteur, String numeroDestinataire, String msgVocal, Date dateAppel)
+  {
+	  
+	  int i = 0;
+	 
+	  while ( (i<liste.size()) && (!numeroDestinataire.equals(liste.get(i).getNum().getNum()))) //Tant qu'on a pas atteint le max de la liste et tant qu'on a pas trouvé l'abonné en question.
+	  {
+		  //Si le numéro passé en paramètre est trouvé dans la liste des abonnés
+		  if(numeroDestinataire.equals(liste.get(i).getNum().getNum())) //Comparaison entre le numéro à qui on souhaite envoyer le sms et le numéro de l'abonné dans la liste
+		  {
+			  AbonneOperateur recepteur = liste.get(i);
+			  while (recepteur.estLibre()){
+				  if (emetteur.appeler(numeroDestinataire,msgVocal,dateAppel) && recepteur.accepterAppel(emetteur.getNum().getNum())){
+					  Appel a = new Appel (recepteur.getNum(), dateAppel);
+					  return true;
+				  }
+
+		  }
+		  i = i+1;
+	  }
+	}
+	  return false;
+  }
+
+  /**
+   * poster un SMS
+   * @param emetteur
+   * @param numeroDestinataire
+   * @param sms : le texte du SMS
+   * @pamra dateEnvoi
+   */
+  public void posterSMS(AbonneOperateur emetteur, String numeroDestinataire, String sms, Date dateEnvoi)
+  {
+	  int i = 0;
+	  MessageSMS message = new MessageSMS(sms, dateEnvoi, numeroDestinataire);
+	  while ( (i<liste.size()) && (!numeroDestinataire.equals(liste.get(i).getNum().getNum()))) //Tant qu'on a pas atteint le max de la liste et tant qu'on a pas trouvé l'abonné en question.
+	  {
+		  //Si le numéro passé en paramètre est trouvé dans la liste des abonnés
+		  if(numeroDestinataire.equals(liste.get(i).getNum().getNum())) //Comparaison entre le numéro à qui on souhaite envoyer le sms et le numéro de l'abonné dans la liste
+		  {
+			  AbonneOperateur recepteur = liste.get(i);
+			  BoiteSMS br = recepteur.getBoiteSMS();
+			  BoiteSMS be = emetteur.getBoiteSMS();
+			  br.ajouterSMS(message);
+			  be.ajouterSMS(message);//On envoi le SMS sur la boite SMS du destinataire.
+			  System.out.println("Message Envoyé !");
+			  message = null;
+			  break;
+		  }
+		  i = i+1;
+	  }
+	 
+
+  }
+
+  /**
+   * un abonné met fin à une communication
+   * @param abonne : celui qui clôt
+   * @param date de fin de communication
+   */
+  public void cloreAppel(AbonneOperateur abonne, Date fin){
+	  Appel appel = getAppel(abonne); //retrouver l'appel correspondant à l'abonné
+	  appel.terminerAppel(fin); //terminer l'appel
+	  this.datefin = fin;
+	  
+	  
+  }
+  
+  public Appel getAppel(AbonneOperateur abonne)
+  {
+	  ListIterator <Appel> it= listeAp.listIterator();
+	  while(it.hasNext())
+	  {
+		  Appel cur = it.next();
+		  if(cur.getEmetteur().equals(abonne) || cur.getRecepteur().equals(abonne)) //si l'abonné est l'appelant ou l'appelé
+		  {
+			  return cur; //renvoi de l'appel
+		  }
+	  }
+	  return null;
+  }
+  
+  public List<AbonneOperateur> getListe(){
+	  return liste;
+  }
+  
+  public String getNomOperateur()
+  {
+	  return nomOperateur;
+  }
+} // Operateur

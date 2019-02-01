@@ -1,0 +1,3 @@
+Permet la configuration et la visualisation sur un STIM, STIM étant la marque du constructeur.
+
+un STIM est un "enregistreur vidéo" ou "stoqueur vidéo"

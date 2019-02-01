@@ -1,0 +1,24 @@
+package messagerie;
+
+public class AbstractMessage{
+	
+	//Attibuts
+	private String message;
+	private AbstractCommMessage messageAb;
+
+	//Constructeur 
+	public AbstractMessage(String message, AbstractCommMessage messageAb) {
+		this.message = message;
+		this.messageAb =  messageAb;
+	}
+
+	//Methodes
+	public String getMessage() {
+		return this.message;
+	}
+
+	
+	public AbstractCommMessage getAbCommMessage() {
+		return this.messageAb;
+	}
+}

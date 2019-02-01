@@ -1,0 +1,30 @@
+package messagerie;
+import java.util.Date;
+
+public class Appel {
+	
+	//attributs
+	private Date debut;
+	private Date fin;
+	private NumeroTelephone numero;
+	private boolean estEnCours;
+	
+	
+	//constructeur
+	public Appel (NumeroTelephone numero ,Date dateDebut){
+		this.debut = dateDebut;
+		this.numero = numero;
+		this.estEnCours = true;
+	}
+	
+	public boolean estEnCours()
+	{
+		return this.estEnCours;
+	}
+	
+	public void terminerAppel(Date fin)
+	{
+		this.fin = fin;
+		this.estEnCours = false;
+	}
+}

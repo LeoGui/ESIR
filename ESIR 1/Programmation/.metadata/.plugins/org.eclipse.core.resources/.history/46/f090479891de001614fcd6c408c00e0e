@@ -1,0 +1,19 @@
+package messagerie;
+
+import java.util.Date;
+
+
+public class MessageSMS extends AbstractMessage {
+	
+	//attributs
+	private Date dateenvoi;
+	private String numdestinataire;
+	
+	//constructeur
+	public MessageSMS(String message, AbstractCommMessage comMessage){
+		super(message, comMessage);
+		this.dateenvoi =dateenvoi;
+		this.numdestinataire =  numdestinataire;
+	}
+
+}

@@ -1,0 +1,35 @@
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+
+public class PageSimple {
+	
+	//attributs
+	private List <Contact> repertoire;	
+	
+	
+	//constructeur
+	public PageSimple(){
+		List repertoire = new LinkedList<Contact>;
+	}
+}
+
+protected static String chercher(List <Contact> repertoire,String nom){
+	ListIterator <Contact> it = repertoire.ListIterator;
+	while(it.hasNext()){
+		String courant = it.next;
+		if(courant == nom){return courant;}
+		else{return null;}
+	}
+	
+	
+static boolean estPresent(String nom){
+	List repertoire = new LinkedList<Contact>;
+	if(chercher(repertoire,nom)){return true;}
+	return false;
+	}
+	
+}
+	
+	
+}

@@ -1,0 +1,109 @@
+package messagerie;
+import java.util.Date;
+import java.util.Random;
+/**
+ * utilisation du téléphone par l'abonné
+ */
+
+public class Telephone implements GestionCommunication{
+	
+	//attributs
+	private boolean etat;
+	private BoiteSMS b1;
+	protected Date datefin;
+	protected Date datedebut;
+	protected NumeroTelephone num;
+	protected String msgVocal;
+	private Operateur operateur;
+	protected Forfait nomForfait;
+	protected String nomPersonne;
+	protected AbonneOperateur abonne;
+	
+	
+	//constructeur
+	public Telephone(AbonneOperateur abonne){
+		BoiteSMS b1 = new BoiteSMS();
+		this.b1 = b1;
+		this.abonne = abonne;
+	}
+
+	//--------------------------------------------------
+  // méthodes de l'interface GestionCommunication
+  //------------------------------------------------------------------------
+
+	public boolean appeler(String numero, String msgVocalSiOccupe, Date dateDebut){
+		for (int i=0; i<operateur.getListe().size(); i++)
+		{
+			AbonneOperateur recepteur = operateur.getListe().get(i);
+			//Si le numéro passé en paramètre est trouvé dans la liste des abonnés
+			if(numero.equals(recepteur.getNum())) //Comparaison entre le numéro à qui on souhaite envoyer le sms et le numéro de l'abonné dans la liste
+			{
+				if(!accepterAppel(this.num.numero)){
+					AbstractCommMessage comMessage = new CommMessageVocal(dateDebut,recepteur.getNum(),this.num);
+					MessageVocal message = new MessageVocal(msgVocalSiOccupe,comMessage);
+					recepteur.getBoiteVocale().ajouterMesVoc(message);
+					return false;
+				}
+				return true;
+			}
+			return false;
+		}
+		return false;
+
+
+	}
+
+  @Override
+  public void envoyerSMS(String numero, String sms, Date dateSMS)
+  {
+	  this.abonne.envoyerSMS(numero, sms, dateSMS);
+  }
+
+  public void recevoirSMS(MessageSMS message){
+    this.b1.ajouterSMS(message);
+  }
+ 
+  
+  public boolean accepterAppel(String numeroAppelant){
+	 return true;
+  }
+
+
+  
+  public void cloreAppel(Date fin) {
+		  this.abonne.cloreAppel(fin);
+  }
+
+  //------------------------------------------------------------------------
+  // méthodes propres
+  //------------------------------------------------------------------------
+
+  
+
+  public BoiteSMS getBoite(){
+	  return b1;
+  }
+  
+  public boolean estallume() {
+	  return etat;
+  }
+  
+  public boolean esteteint() {
+	  return !etat;
+  }
+  
+  public void allumer() {
+	  this.etat = true;
+    System.out.println("allumer");
+  }
+  
+  public void eteindre() {
+	 this.etat = false;
+	  System.out.println("eteindre");
+  }
+  
+  public AbonneOperateur getAbonne(){
+	  return abonne;
+  }
+
+} // Telephone

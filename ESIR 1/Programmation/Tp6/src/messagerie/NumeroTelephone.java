@@ -1,0 +1,20 @@
+// GRECO Vincent & GUILPAIN Léo
+
+package messagerie;
+
+public class NumeroTelephone {
+	//attributs
+	protected String numero;
+	private int nombre;
+	private int i=0;
+
+	//constructeur
+	public NumeroTelephone(){
+		nombre = i;
+		i++;	
+		numero = ("+33") + nombre;
+	}
+
+	//renvoie le numéro de téléphone
+	public String getNum(){return numero;}
+}

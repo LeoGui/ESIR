@@ -1,0 +1,60 @@
+package messagerie;
+
+import java.util.Date;
+
+public class stock {
+
+}
+
+
+//operateur
+
+public boolean etablirCommunication(AbonneOperateur emetteur, String numeroDestinataire, String msgVocal, Date dateAppel)
+{
+	  
+	  int i = 0;
+	 
+	  while ( (i<liste.size()) && (!numeroDestinataire.equals(liste.get(i).getNum().getNum()))) //Tant qu'on a pas atteint le max de la liste et tant qu'on a pas trouvé l'abonné en question.
+	  {
+		  //Si le numéro passé en paramètre est trouvé dans la liste des abonnés
+		  if(numeroDestinataire.equals(liste.get(i).getNum().getNum())) //Comparaison entre le numéro à qui on souhaite envoyer le sms et le numéro de l'abonné dans la liste
+		  {
+			  AbonneOperateur recepteur = liste.get(i);
+			  while (recepteur.estLibre()){
+				  if (emetteur.appeler(numeroDestinataire,msgVocal,dateAppel) && recepteur.accepterAppel(emetteur.getNum().getNum())){
+					  Appel a = new Appel (emetteur.getNum(), recepteur.getNum(), dateAppel);
+					  return true;
+				  }
+
+		  }
+		  i = i+1;
+	  }
+	}
+	  return false;
+}
+
+
+
+//AbonneOperateur
+
+public boolean appeler(String numero, String msgVocalSiOccupe, Date dateDebut){
+	for (int i=0; i<operateur.getListe().size(); i++)
+	{
+		AbonneOperateur recepteur = operateur.getListe().get(i);
+		//Si le numéro passé en paramètre est trouvé dans la liste des abonnés
+		if(numero.equals(recepteur.num)) //Comparaison entre le numéro à qui on souhaite envoyer le sms et le numéro de l'abonné dans la liste
+		{
+			if(!accepterAppel(this.num.numero)){
+				AbstractCommMessage comMessage = new CommMessageVocal(dateDebut,recepteur.getNum(),this.num);
+				MessageVocal message = new MessageVocal(msgVocalSiOccupe,comMessage);
+				recepteur.getBoiteVocale().ajouterMesVoc(message);
+				return false;
+			}
+			return true;
+		}
+		
+	}
+	return false;
+
+
+}

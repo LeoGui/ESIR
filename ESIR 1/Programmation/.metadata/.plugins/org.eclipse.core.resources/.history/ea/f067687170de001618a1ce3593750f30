@@ -1,0 +1,42 @@
+package messagerie;
+import java.util.Date;
+
+public class Appel {
+	
+	//attributs
+	private Date debut;
+	private Date fin;
+	private NumeroTelephone emetteur;
+	private NumeroTelephone recepteur;
+	private boolean appelEnCours;
+	
+	
+	//constructeur
+	public Appel (NumeroTelephone emetteur, NumeroTelephone recepteur ,Date dateDebut){
+		this.debut = dateDebut;
+		this.emetteur = emetteur;
+		this.recepteur = recepteur;
+		this.appelEnCours = true;
+	}
+	
+	public boolean estEnCours()
+	{
+		return this.appelEnCours;
+	}
+	
+	public void terminerAppel(Date fin)
+	{
+		this.fin = fin;
+		this.appelEnCours = false;
+	}
+	
+	public NumeroTelephone getEmetteur()
+	{
+		return this.emetteur;
+	}
+	
+	public NumeroTelephone getRecepteur()
+	{
+		return this.recepteur;
+	}
+}

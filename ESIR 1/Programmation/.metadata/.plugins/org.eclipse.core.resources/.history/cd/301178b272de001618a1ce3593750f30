@@ -1,0 +1,14 @@
+package messagerie;
+
+import java.util.Date;
+
+
+public class MessageVocal extends AbstractMessage{
+	
+
+	//constructeur
+	public MessageVocal(String message, AbstractCommMessage comMessage){
+		super(message, comMessage);
+	}
+	
+}
